@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROFGOLF - Премиум клюшки для гольфа</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: #fafafa;
+            color: #2c2c2c;
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* УБИРАЕМ SNAP-SCROLL ДЛЯ ВСЕГО САЙТА */
+        html {
+            height: 100%;
+            scroll-behavior: smooth;
+        }
+
+        /* Верхняя панель */
+        .top-bar {
+            background: linear-gradient(135deg, #1a2230 0%, #2a3446 100%);
+            padding: 12px 40px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 30px;
+            font-size: 13px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1001;
+        }
+
+        .top-link {
+            color: #ffffff;
+            text-decoration: none;
+            opacity: 0.85;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-link:hover {
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+
+        /* Хедер */
+        header {
+            background: #ffffff;
+            padding: 20px 40px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            position: fixed;
+            top: 40px;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .logo {
+            color: #2c2c2c;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            color: #c0a85a;
+            font-size: 24px;
+        }
+
+        .nav-desktop {
+            display: flex;
+            gap: 40px;
+            margin: 0 auto;
+        }
+
+        .nav-link {
+            color: #2c2c2c;
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            font-weight: 450;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+            color: #c0a85a;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: #c0a85a;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Выпадающее меню для Клюшек */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        .dropdown.active .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 25px;
+            color: #2c2c2c;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .dropdown-item::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #c0a85a;
+            border-radius: 50%;
+            margin-right: 12px;
+            display: inline-block;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9fa;
+            color: #c0a85a;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .cart-link {
+            color: #2c2c2c;
+            text-decoration: none;
+            font-size: 18px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .cart-link:hover {
+            opacity: 1;
+            color: #c0a85a;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #c0a85a;
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Герой секция - ТОЛЬКО ДЛЯ НЕЕ SNAP */
+        .hero-section {
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+                        url('https://i.ibb.co/xqLPn2dh/Golfshot.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 100px;
+            position: relative;
+        }
+
+        /* АДАПТИВНОСТЬ ДЛЯ РАЗНЫХ УСТРОЙСТВ */
+        @media (max-width: 1200px) {
+            .hero {
+                background-position: center 30%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                background-position: center 25%;
+                padding-bottom: 60px;
+            }
+            
+            .cta-button {
+                padding: 15px 35px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                background-position: center 20%;
+            }
+            
+            .cta-button {
+                padding: 12px 30px;
+                font-size: 13px;
+            }
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #c0a85a 0%, #d4b95c 100%);
+            color: white;
+            padding: 20px 50px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 5px 20px rgba(192,168,90,0.3);
+            font-size: 16px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(192,168,90,0.4);
+        }
+
+        /* Каталог товаров - ИСПРАВЛЕННЫЙ */
+        .catalog-section {
+            padding: 120px 40px;
+            background: white;
+            min-height: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: 300;
+            margin-bottom: 60px;
+            color: #2c2c2c;
+            letter-spacing: 1px;
+        }
+
+        /* 3 ТОВАРА В РЯДУ */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .product-image img.secondary {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+        }
+
+        .product-card:hover .product-image img.primary {
+            opacity: 0;
+        }
+
+        .product-card:hover .product-image img.secondary {
+            opacity: 1;
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .product-name {
+            color: #2c2c2c;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        /* Уровень клюшки */
+        .product-level {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-price {
+            color: #c0a85a;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        /* Модальное окно поддержки */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #c0a85a;
+        }
+
+        .support-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-input {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #c0a85a;
+            box-shadow: 0 0 0 2px rgba(192,168,90,0.2);
+        }
+
+        .form-textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            background: linear-gradient(135deg, #c0a85a 0%, #d4b95c 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(192,168,90,0.3);
+        }
+
+        /* Анимация успешной отправки */
+        .success-animation {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .checkmark {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #4CAF50;
+            margin: 0 auto 20px;
+            position: relative;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .checkmark::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 40px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+            left: 20px;
+            top: 8px;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        /* Футер */
+        footer {
+            background: linear-gradient(135deg, #1a2230 0%, #2a3446 100%);
+            color: white;
+            padding: 60px 40px 30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #c0a85a;
+            font-weight: 500;
+        }
+
+        .footer-section p {
+            opacity: 0.8;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: #c0a85a;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            opacity: 1;
+            color: #c0a85a;
+            transform: translateY(-2px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 50px;
+            opacity: 0.7;
+            font-size: 14px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar, header {
+                padding: 15px 20px;
+            }
+
+            .hero {
+                padding-bottom: 60px;
+            }
+
+            .catalog-section {
+                padding: 80px 20px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-desktop {
+                gap: 20px;
+                font-size: 12px;
+            }
+        }
+
+        /* Дополнительные стили для новых страниц */
+        .content-section {
+            padding: 160px 40px 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .content-section h1 {
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            color: #2c2c2c;
+            text-align: center;
+        }
+
+        .content-section p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .content-section h2 {
+            font-size: 1.8em;
+            margin: 40px 0 20px;
+            color: #c0a85a;
+        }
+
+        .main-home-btn {
+            background: linear-gradient(135deg, #c0a85a 0%, #d4b95c 100%);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(192,168,90,0.3);
+            margin-top: 30px;
+        }
+
+        .main-home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(192,168,90,0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Верхняя панель -->
+    <div class="top-bar">
+        <a href="#" class="top-link">
+            <i class="fas fa-phone"></i>
+            Оставить запрос на звонок
+        </a>
+        <a href="https://t.me/profgolf_support" class="top-link">
+            <i class="fab fa-telegram"></i>
+            @profgolf_support
+        </a>
+    </div>
+
+    <!-- Хедер -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-golf-ball logo-icon"></i>
+                PROFGOLF
+            </a>
+
+            <nav class="nav-desktop">
+                <a href="index.html" class="nav-link">ГЛАВНАЯ</a>
+                <div class="dropdown" id="clubsDropdown">
+                    <span class="nav-link">КЛЮШКи</span>
+                    <div class="dropdown-content">
+                        <a href="drivers.html" class="dropdown-item">Драйверы</a>
+                        <a href="irons.html" class="dropdown-item">Айроны</a>
+                        <a href="putters.html" class="dropdown-item">Паттеры</a>
+                        <a href="woods.html" class="dropdown-item">Вуды</a>
+                        <a href="hybrids.html" class="dropdown-item">Гибриды</a>
+                        <a href="sets.html" class="dropdown-item">Комплекты</a>
+                    </div>
+                </div>
+                <a href="#" class="nav-link">МЯЧИ</a>
+                <a href="about-golf.html" class="nav-link">О ГОЛЬФЕ</a>
+                <a href="about-us.html" class="nav-link">О НАС</a>
+                <a href="#" class="nav-link" onclick="openSupportModal()">ПОДДЕРЖКА</a>
+            </nav>
+
+            <div class="header-right">
+                <a href="#" class="cart-link">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">3</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Герой секция с SNAP -->
+    <section class="hero-section">
+        <div class="hero">
+            <a href="#catalog" class="cta-button">ПЕРЕЙТИ К КАТАЛОГУ</a>
+        </div>
+    </section>
+
+    <!-- Каталог товаров -->
+    <section class="catalog-section" id="catalog">
+        <h2 class="section-title">КАТАЛОГ</h2>
+        <div class="products-grid">
+            <!-- 12 товаров остаются без изменений -->
+            <!-- Товар 1 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1593085260707-5377ba37f868?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Driver" class="primary">
+                    <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Driver angle view" class="secondary">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Драйвер Pro Series</h3>
+                    <p class="product-level">Профессиональные</p>
+                    <p class="product-price">45 000 ₽</p>
+                </div>
+            </div>
+            
+            <!-- Товар 2 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1598880620331-2d1f71415e51?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Irons" class="primary">
+                    <img src="https://images.unsplash.com/photo-1623920286256-4fa64a5d1d2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Irons angle view" class="secondary">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Айроны Premium</h3>
+                    <p class="product-level">Любительские</p>
+                    <p class="product-price">68 000 ₽</p>
+                </div>
+            </div>
+            
+            <!-- Товар 3 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1598880796845-114a3efc171f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Putter" class="primary">
+                    <img src="https://images.unsplash.com/photo-1623920286264-4fa64a5d1d2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Putter angle view" class="secondary">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Паттер Master</h3>
+                    <p class="product-level">Начинающие</p>
+                    <p class="product-price">32 000 ₽</p>
+                </div>
+            </div>
+            
+            <!-- Товар 4 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Wood" class="primary">
+                    <img src="https://images.unsplash.com/photo-1593085260707-5377ba37f868?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Wood angle view" class="secondary">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Вуд Tournament</h3>
+                    <p class="product-level">Профессиональные</p>
+                    <p class="product-price">38 500 ₽</p>
+                </div>
+            </div>
+            
+            <!-- Товар 5 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1623920286256-4fa64a5d1d2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Hybrid" class="primary">
+                    <img src="https://images.unsplash.com/photo-1598880620331-2d1f71415e51?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Hybrid angle view" class="secondary">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Гибрид Pro</h3>
+                    <p class="product-level">Любительские</p>
+                    <p class="product-price">29 900 ₽</p>
+                </div>
+            </div>
+            
+            <!-- Товар 6 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1623920286264-4fa64a5d1d2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Golf Set" class="primary">
+                    <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Golf Set angle view" class="secondary">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Комплект Champion</h3>
+                    <p class="product-level">Профессиональные</p>
+                    <p class="product-price">145 000 ₽</p>
+                </div>
+            </div>
+
+            <!-- Товар 7 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Driver 2" class="primary">
+                    <img src="https://images.unsplash.com/photo-1519861531473-9200262ca5f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Driver 2 angle" class="secondary">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Драйвер Elite</h3>
+                    <p class="product-level">Любительские</p>
+                    <p class="product-price">52 000 ₽</p>
+                </div>
+            </div>
+
+            <!-- Товар 8 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Irons 2" class="primary">
+                    <img src="https://images.unsplash.com/photo-1598880620331-2d1f71415e51?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Irons 2 angle" class="secondary">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Айроны Classic</h3>
+                    <p class="product-level">Начинающие</p>
+                    <p class="product-price">42 500 ₽</p>
+                </div>
+            </div>
+
+            <!-- Товар 9 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1623920286264-4fa64a5d1d2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Putter 2" class="primary">
+                    <img src="https://images.unsplash.com/photo-1598880796845-114a3efc171f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Putter 2 angle" class="secondary">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Паттер Precision</h3>
+                    <p class="product-level">Профессиональные</p>
+                    <p class="product-price">37 800 ₽</p>
+                </div>
+            </div>
+
+            <!-- Товар 10 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1593085260707-5377ba37f868?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Wood 2" class="primary">
+                    <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Wood 2 angle" class="secondary">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Вуд Performance</h3>
+                    <p class="product-level">Любительские</p>
+                    <p class="product-price">34 200 ₽</p>
+                </div>
+            </div>
+
+            <!-- Товар 11 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1598880620331-2d1f71415e51?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Hybrid 2" class="primary">
+                    <img src="https://images.unsplash.com/photo-1623920286256-4fa64a5d1d2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Hybrid 2 angle" class="secondary">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Гибрид Tour</h3>
+                    <p class="product-level">Профессиональные</p>
+                    <p class="product-price">41 300 ₽</p>
+                </div>
+            </div>
+
+            <!-- Товар 12 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Golf Set 2" class="primary">
+                    <img src="https://images.unsplash.com/photo-1593085260707-5377ba37f868?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Golf Set 2 angle" class="secondary">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Комплект Starter</h3>
+                    <p class="product-level">Начинающие</p>
+                    <p class="product-price">89 900 ₽</p>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>PROFGOLF</h3>
+                <p>Премиальные клюшки для гольфа</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Каталог</h3>
+                <ul class="footer-links">
+                    <li><a href="drivers.html">Драйверы</a></li>
+                    <li><a href="irons.html">Айроны</a></li>
+                    <li><a href="putters.html">Паттеры</a></li>
+                    <li><a href="woods.html">Вуды</a></li>
+                    <li><a href="hybrids.html">Гибриды</a></li>
+                    <li><a href="sets.html">Комплекты</a></li>
+                    <li><a href="#">Мячи</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Информация</h3>
+                <ul class="footer-links">
+                    <li><a href="about-golf.html">О гольфе</a></li>
+                    <li><a href="about-us.html">О нас</a></li>
+                    <li><a href="#">Доставка и оплата</a></li>
+                    <li><a href="#">Гарантия</a></li>
+                    <li><a href="#">Отзывы</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <p>Email: info@profgolf.ru</p>
+                <p>Телефон: +7 (495) 123-45-67</p>
+                <p>Москва, ул. Гольфовая, 18</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2024 PROFGOLF. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Модальное окно поддержки -->
+    <div class="modal" id="supportModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeSupportModal()">×</span>
+            <h2>Оставьте обращение в поддержку</h2>
+            <form class="support-form" id="supportForm" onsubmit="return handleSubmit(event)">
+                <input type="email" class="form-input" placeholder="Ваша почта" required id="email">
+                <textarea class="form-input form-textarea" placeholder="Ваше сообщение" required id="message"></textarea>
+                <div style="font-size: 12px; margin-bottom: 15px;">
+                    Нажимая "Отправить", вы соглашаетесь с обработкой персональных данных
+                </div>
+                <button type="submit" class="form-submit">Отправить</button>
+            </form>
+            <div class="success-animation" id="successAnimation">
+                <div class="checkmark"></div>
+                <p>Обращение отправлено</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Управление выпадающим меню
+        document.getElementById('clubsDropdown').addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+        });
+
+        // Закрытие выпадающего меню при клике вне его
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('clubsDropdown');
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // Модальное окно поддержки
+        function openSupportModal() {
+            document.getElementById('supportModal').style.display = 'flex';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('supportModal').style.display = 'none';
+            document.getElementById('successAnimation').style.display = 'none';
+            document.getElementById('supportForm').style.display = 'flex';
+        }
+
+        // Обработка формы поддержки
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            document.getElementById('supportForm').style.display = 'none';
+            document.getElementById('successAnimation').style.display = 'block';
+            
+            setTimeout(() => {
+                closeSupportModal();
+                document.getElementById('supportForm').reset();
+            }, 3000);
+            
+            return false;
+        }
+
+        // Плавная прокрутка по клику
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Snap-scroll ТОЛЬКО для герой секции
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroSection = document.querySelector('.hero-section');
+            heroSection.style.scrollSnapAlign = 'start';
+            
+            // Отключаем snap для остальных секций
+            const otherSections = document.querySelectorAll('section:not(.hero-section)');
+            otherSections.forEach(section => {
+                section.style.scrollSnapAlign = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О нас - PROFGOLF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: #fafafa;
+            color: #2c2c2c;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Верхняя панель */
+        .top-bar {
+            background: linear-gradient(135deg, #1a2230 0%, #2a3446 100%);
+            padding: 12px 40px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 30px;
+            font-size: 13px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1001;
+        }
+
+        .top-link {
+            color: #ffffff;
+            text-decoration: none;
+            opacity: 0.85;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-link:hover {
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+
+        /* Хедер */
+        header {
+            background: #ffffff;
+            padding: 20px 40px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            position: fixed;
+            top: 40px;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .logo {
+            color: #2c2c2c;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            color: #c0a85a;
+            font-size: 24px;
+        }
+
+        .nav-desktop {
+            display: flex;
+            gap: 40px;
+            margin: 0 auto;
+        }
+
+        .nav-link {
+            color: #2c2c2c;
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            font-weight: 450;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+            color: #c0a85a;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: #c0a85a;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Выпадающее меню для Клюшек */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        .dropdown.active .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 25px;
+            color: #2c2c2c;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .dropdown-item::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #c0a85a;
+            border-radius: 50%;
+            margin-right: 12px;
+            display: inline-block;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9fa;
+            color: #c0a85a;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .cart-link {
+            color: #2c2c2c;
+            text-decoration: none;
+            font-size: 18px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .cart-link:hover {
+            opacity: 1;
+            color: #c0a85a;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #c0a85a;
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Стили для контентной страницы */
+        .content-page {
+            padding-top: 140px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #2c2c2c;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: #c0a85a;
+            margin: 20px auto;
+        }
+
+        .page-content {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-content h2 {
+            color: #c0a85a;
+            margin: 40px 0 20px;
+            font-size: 1.8em;
+        }
+
+        .page-content p {
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+
+        .page-content ul {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        .page-content li {
+            margin-bottom: 10px;
+        }
+
+        /* Декоративные изображения по углам */
+        .corner-image {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .corner-top-left {
+            top: 50px;
+            left: 50px;
+        }
+
+        .corner-top-right {
+            top: 50px;
+            right: 50px;
+        }
+
+        .corner-bottom-left {
+            bottom: 50px;
+            left: 50px;
+        }
+
+        .corner-bottom-right {
+            bottom: 50px;
+            right: 50px;
+        }
+
+        /* Блоки с иконками */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            color: #c0a85a;
+            margin-bottom: 20px;
+        }
+
+        /* Футер */
+        footer {
+            background: linear-gradient(135deg, #1a2230 0%, #2a3446 100%);
+            color: white;
+            padding: 60px 40px 30px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #c0a85a;
+            font-weight: 500;
+        }
+
+        .footer-section p {
+            opacity: 0.8;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: #c0a85a;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            opacity: 1;
+            color: #c0a85a;
+            transform: translateY(-2px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 50px;
+            opacity: 0.7;
+            font-size: 14px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .top-bar, header {
+                padding: 15px 20px;
+            }
+
+            .content-container {
+                padding: 40px 20px;
+            }
+
+            .page-title {
+                font-size: 2.2em;
+            }
+
+            .corner-image {
+                width: 120px;
+                height: 120px;
+            }
+
+            .corner-top-left,
+            .corner-top-right,
+            .corner-bottom-left,
+            .corner-bottom-right {
+                top: 30px;
+                left: 30px;
+                right: 30px;
+                bottom: 30px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Верхняя панель -->
+    <div class="top-bar">
+        <a href="#" class="top-link">
+            <i class="fas fa-phone"></i>
+            Оставить запрос на звонок
+        </a>
+        <a href="https://t.me/profgolf_support" class="top-link">
+            <i class="fab fa-telegram"></i>
+            @profgolf_support
+        </a>
+    </div>
+
+    <!-- Хедер -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-golf-ball logo-icon"></i>
+                PROFGOLF
+            </a>
+
+            <nav class="nav-desktop">
+                <a href="index.html" class="nav-link">ГЛАВНАЯ</a>
+                <div class="dropdown" id="clubsDropdown">
+                    <span class="nav-link">КЛЮШКИ</span>
+                    <div class="dropdown-content">
+                        <a href="drivers.html" class="dropdown-item">Драйверы</a>
+                        <a href="irons.html" class="dropdown-item">Айроны</a>
+                        <a href="putters.html" class="dropdown-item">Паттеры</a>
+                        <a href="woods.html" class="dropdown-item">Вуды</a>
+                        <a href="hybrids.html" class="dropdown-item">Гибриды</a>
+                        <a href="sets.html" class="dropdown-item">Комплекты</a>
+                    </div>
+                </div>
+                <a href="#" class="nav-link">МЯЧИ</a>
+                <a href="about-golf.html" class="nav-link">О ГОЛЬФЕ</a>
+                <a href="about-us.html" class="nav-link">О НАС</a>
+                <a href="#" class="nav-link" onclick="openSupportModal()">ПОДДЕРЖКА</a>
+            </nav>
+
+            <div class="header-right">
+                <a href="#" class="cart-link">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">3</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент страницы -->
+    <main class="content-page">
+        <!-- Декоративные изображения по углам -->
+        <img src="https://images.unsplash.com/photo-1598880796845-114a3efc171f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Golf decor" class="corner-image corner-top-left">
+        <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Golf decor" class="corner-image corner-top-right">
+        <img src="https://images.unsplash.com/photo-1593085260707-5377ba37f868?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Golf decor" class="corner-image corner-bottom-left">
+        <img src="https://images.unsplash.com/photo-1623920286256-4fa64a5d1d2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Golf decor" class="corner-image corner-bottom-right">
+
+        <div class="content-container">
+            <h1 class="page-title">О компании PROFGOLF</h1>
+            
+            <div class="page-content">
+                <p>PROFGOLF — это премиальный бренд оборудования для гольфа, созданный для тех, кто ценит качество, инновации и безупречную игру. Мы объединяем лучшие традиции гольфа с современными технологиями, чтобы предложить нашим клиентам исключительные продукты.</p>
+
+                <h2>Наша философия</h2>
+                <p>Мы верим, что каждый игрок заслуживает оборудования, которое помогает раскрыть его потенциал. Наши клюшки создаются с любовью к гольфу и уважением к игроку — от начинающих до профессионалов.</p>
+
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <h3>Качество</h3>
+                        <p>Используем только лучшие материалы и технологии производства</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>Инновации</h3>
+                        <p>Постоянно развиваемся и внедряем новые технологии</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h3>Поддержка</h3>
+                        <p>Персональный подход к каждому клиенту</p>
+                    </div>
+                </div>
+
+                <h2>Наша история</h2>
+                <p>Основанная в 2018 году, компания PROFGOLF начала свой путь с небольшой мастерской, где создавались индивидуальные клюшки для профессиональных игроков. Сегодня мы — признанный бренд, представленный в 15 странах мира.</p>
+
+                <h2>Почему выбирают нас</h2>
+                <ul>
+                    <li>🏆 Премиальное качество материалов</li>
+                    <li>🎯 Точность и контроль в каждой клюшке</li>
+                    <li>💎 Индивидуальный подход к производству</li>
+                    <li>🌍 Гарантия на всю продукцию</li>
+                    <li>⏱️ Быстрая доставка по всему миру</li>
+                </ul>
+
+                <h2>Наша миссия</h2>
+                <p>Мы стремимся сделать гольф доступным и enjoyable для каждого. Наша миссия — предоставлять оборудование, которое вдохновляет на игру и помогает достигать новых высот на поле.</p>
+
+                <p>Присоединяйтесь к сообществу PROFGOLF и откройте для себя новый уровень игры в гольф!</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Футер -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>PROFGOLF</h3>
+                <p>Премиальные клюшки для гольфа</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Каталог</h3>
+                <ul class="footer-links">
+                    <li><a href="drivers.html">Драйверы</a></li>
+                    <li><a href="irons.html">Айроны</a></li>
+                    <li><a href="putters.html">Паттеры</a></li>
+                    <li><a href="woods.html">Вуды</a></li>
+                    <li><a href="hybrids.html">Гибриды</a></li>
+                    <li><a href="sets.html">Комплекты</a></li>
+                    <li><a href="#">Мячи</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Информация</h3>
+                <ul class="footer-links">
+                    <li><a href="about-golf.html">О гольфе</a></li>
+                    <li><a href="about-us.html">О нас</a></li>
+                    <li><a href="#">Доставка и оплата</a></li>
+                    <li><a href="#">Гарантия</a></li>
+                    <li><a href="#">Отзывы</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <p>Email: info@profgolf.ru</p>
+                <p>Телефон: +7 (495) 123-45-67</p>
+                <p>Москва, ул. Гольфовая, 18</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2024 PROFGOLF. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Модальное окно поддержки -->
+    <div class="modal" id="supportModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeSupportModal()">×</span>
+            <h2>Оставьте обращение в поддержку</h2>
+            <form class="support-form" id="supportForm" onsubmit="return handleSubmit(event)">
+                <input type="email" class="form-input" placeholder="Ваша почта" required id="email">
+                <textarea class="form-input form-textarea" placeholder="Ваше сообщение" required id="message"></textarea>
+                <div style="font-size: 12px; margin-bottom: 15px;">
+                    Нажимая "Отправить", вы соглашаетесь с обработкой персональных данных
+                </div>
+                <button type="submit" class="form-submit">Отправить</button>
+            </form>
+            <div class="success-animation" id="successAnimation">
+                <div class="checkmark"></div>
+                <p>Обращение отправлено</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Управление выпадающим меню
+        document.getElementById('clubsDropdown').addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+        });
+
+        // Закрытие выпадающего меню при клике вне его
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('clubsDropdown');
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // Модальное окно поддержки
+        function openSupportModal() {
+            document.getElementById('supportModal').style.display = 'flex';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('supportModal').style.display = 'none';
+            document.getElementById('successAnimation').style.display = 'none';
+            document.getElementById('supportForm').style.display = 'flex';
+        }
+
+        // Обработка формы поддержки
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            document.getElementById('supportForm').style.display = 'none';
+            document.getElementById('successAnimation').style.display = 'block';
+            
+            setTimeout(() => {
+                closeSupportModal();
+                document.getElementById('supportForm').reset();
+            }, 3000);
+            
+            return false;
+        }
+    </script>
+</body>
+</html>
+
